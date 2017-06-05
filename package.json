@@ -2,7 +2,7 @@
   "name": "json2puml",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel src/ -d lib/ --presets es2015,stage-2",
+    "build": "babel src/ -d lib/ -s",
     "prepublish": "yarn run build"
   },
   "devDependencies": {
