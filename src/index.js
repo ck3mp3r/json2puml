@@ -1,15 +1,10 @@
 #! /usr/bin/env node
 /* @flow */
-import figlet from "figlet";
 import yargs from "yargs";
-import chalk from "chalk";
-import jsonfile from "jsonfile";
+import fs from "fs";
 import Files from "./files";
-import DomainParser from "./domain-parser";
-
-console.log(
-    chalk.yellow(figlet.textSync("json 2 puml", { horizontalLayout: "full" }))
-);
+import DomainParser from "./domain/parser";
+import DomainPuml from "./domain/puml";
 
 /**
  * steps to load and parse json files or API end point:
@@ -27,16 +22,33 @@ console.log(
  *
  */
 yargs
-    .command(
-        "domain [file]",
-        "File to parse.",
-        { file: { required: true } },
-        info => {
-            let model = jsonfile.readFileSync(info.file);
-            let domainParser = new DomainParser(model);
-            domainParser.parse();
-        }
-    )
+    .command("domain", false, info => {
+        let data = "";
+        process.stdin.on("data", chunk => {
+            data += chunk;
+        });
+        process.stdin.on("end", () => {
+            let model = JSON.parse(data);
+            let domainParser = new DomainParser(model, name => {
+                let newName = name;
+                if (name.endsWith("ies")) {
+                    newName = name.replace(new RegExp("ies$"), "y");
+                } else if (name.endsWith("s")) {
+                    newName = name.replace(new RegExp("s$"), "");
+                }
+                return newName;
+            });
+            try {
+                let pumlRenderer = new DomainPuml(
+                    fs.readFileSync(__dirname + "/domain/puml.tpl").toString()
+                );
+                let model = domainParser.parse();
+                console.log(pumlRenderer.render(model));
+            } catch (e) {
+                console.log(e);
+            }
+        });
+    })
     .command(
         "objects [file]",
         "File to parse.",
