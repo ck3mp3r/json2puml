@@ -22,7 +22,7 @@ import DomainPuml from "./domain/puml";
  *
  */
 yargs
-    .command("domain", false, info => {
+    .command("domain", true, info => {
         let data = "";
         process.stdin.on("data", chunk => {
             data += chunk;
@@ -49,10 +49,5 @@ yargs
             }
         });
     })
-    .command(
-        "objects [file]",
-        "File to parse.",
-        { file: { required: true } },
-        info => console.log(info)
-    )
+    .command("objects", false, info => console.log("Not implemented yet..."))
     .help().argv;

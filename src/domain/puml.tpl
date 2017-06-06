@@ -7,9 +7,7 @@ class "{{name}}" as {{name}} {
     {{/each}}
 }
 {{/each}}
-{{#each entities}}
 {{#each refs}}
-{{this}} -- {{../name}}
-{{/each}}
+{{.}}
 {{/each}}
 @enduml
