@@ -1,4 +1,5 @@
 /* @flow */
+import winston from "winston";
 import DomainEntity from "./entity";
 export default class DomainParser {
     model: any;
@@ -20,7 +21,7 @@ export default class DomainParser {
 
     _parseEntity(key: string, entity: any, parent: string) {
         if (entity === null) {
-            console.warn("null value for: " + key);
+            winston.warn("null value for: " + key);
             return null;
         }
         switch (typeof entity) {

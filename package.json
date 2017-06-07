@@ -1,8 +1,11 @@
 {
   "name": "json2puml",
-  "main": "lib/index.js",
+  "preferGlobal": true,
+  "bin" :{
+    "json2puml" : "lib/index.js"
+  },
   "scripts": {
-    "build": "babel src/ -d lib/ -s",
+    "build": "babel src/ --copy-files -d lib ",
     "prepublish": "yarn run build"
   },
   "devDependencies": {
@@ -15,6 +18,7 @@
   "dependencies": {
     "handlebars": "^4.0.10",
     "jsonfile": "^3.0.0",
+    "winston": "^2.3.1",
     "yargs": "^8.0.1"
   }
 }

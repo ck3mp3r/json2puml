@@ -1,53 +1,51 @@
 #! /usr/bin/env node
 /* @flow */
+import winston from "winston";
 import yargs from "yargs";
 import fs from "fs";
 import Files from "./files";
 import DomainParser from "./domain/parser";
 import DomainPuml from "./domain/puml";
 
+let data = "";
 /**
- * steps to load and parse json files or API end point:
- *
- * 1. parse command line arguments
- * 2. load file(s) or end point
- * 3. parse file(s)
- * 4. build class tree
- * 5. render PUML output
+ * This lambda handles the actuall processing orchestration
  *
  */
+const domain2puml = () => {
+    let model = JSON.parse(data);
+    let domainParser = new DomainParser(model, name => {
+        let newName = name;
+        if (name.endsWith("ies")) {
+            newName = name.replace(new RegExp("ies$"), "y");
+        } else if (name.endsWith("s")) {
+            newName = name.replace(new RegExp("s$"), "");
+        }
+        return newName;
+    });
+    try {
+        let pumlRenderer = new DomainPuml(
+            fs.readFileSync(__dirname + "/domain/puml.tpl").toString()
+        );
+        let model = domainParser.parse();
+        console.log(pumlRenderer.render(model));
+    } catch (e) {
+        console.log(e);
+    }
+};
 
 /**
  * setup command line input parsing
  *
  */
 yargs
-    .command("domain", true, info => {
-        let data = "";
-        process.stdin.on("data", chunk => {
-            data += chunk;
-        });
-        process.stdin.on("end", () => {
-            let model = JSON.parse(data);
-            let domainParser = new DomainParser(model, name => {
-                let newName = name;
-                if (name.endsWith("ies")) {
-                    newName = name.replace(new RegExp("ies$"), "y");
-                } else if (name.endsWith("s")) {
-                    newName = name.replace(new RegExp("s$"), "");
-                }
-                return newName;
-            });
-            try {
-                let pumlRenderer = new DomainPuml(
-                    fs.readFileSync(__dirname + "/domain/puml.tpl").toString()
-                );
-                let model = domainParser.parse();
-                console.log(pumlRenderer.render(model));
-            } catch (e) {
-                console.log(e);
-            }
-        });
+    .usage("Usage: command | $0 domain > yourfile.puml")
+    .demandCommand(1)
+    .command("domain", "process domain model from incoming api", info => {
+        process.stdin.on("data", chunk => (data += chunk));
+        process.stdin.on("end", domain2puml);
     })
-    .command("objects", false, info => console.log("Not implemented yet..."))
+    .command("objects", false, info => console.warn("Not implemented yet..."))
     .help().argv;
+
+winston.level = process.env.LOG_LEVEL || "error";
