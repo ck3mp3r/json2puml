@@ -42,7 +42,7 @@ const domain2puml = rootName => {
  */
 let data = "";
 yargs
-    .usage("Usage: command | $0 [--root-name FooBar] domain > yourfile.puml")
+    .usage("Usage: command | $0 [--name FooBar] domain > yourfile.puml")
     .example(
         "cat foo.json | $0 domain > bar.puml",
         "Taking an existing json file to turn into plantuml representation"

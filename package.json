@@ -2,10 +2,10 @@
   "name": "json2puml",
   "preferGlobal": true,
   "bin" :{
-    "json2puml" : "lib/index.js"
+    "json2puml" : "dist/index.js"
   },
   "scripts": {
-    "build": "babel src/ --copy-files -d lib ",
+    "build": "babel src/ --copy-files -d dist ",
     "prepublish": "yarn run build"
   },
   "devDependencies": {
