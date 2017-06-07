@@ -41,6 +41,14 @@ const domain2puml = () => {
 yargs
     .usage("Usage: command | $0 domain > yourfile.puml")
     .demandCommand(1)
+    .example(
+        "cat my-file.json | $0 domain > output.puml",
+        "Taking an existing json file to turn into plantuml representation"
+    )
+    .example(
+        "curl http://some-address.com/api | $0 domain > output.puml",
+        "Loading json from an api call to turn into plantuml representation"
+    )
     .command("domain", "process domain model from incoming api", info => {
         process.stdin.on("data", chunk => (data += chunk));
         process.stdin.on("end", domain2puml);
