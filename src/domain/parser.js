@@ -3,19 +3,21 @@ import winston from "winston";
 import DomainEntity from "./entity";
 export default class DomainParser {
     model: any;
+    rootName: string;
     nameHandler: Function;
     entities: Object;
     refs: Set<string>;
 
-    constructor(model: any, nameHandler: Function) {
+    constructor(model: any, rootName: string, nameHandler: Function) {
         this.model = model;
+        this.rootName = rootName;
         this.nameHandler = nameHandler;
         this.entities = {};
         this.refs = new Set();
     }
 
     parse() {
-        this._parseEntity("root", this.model, "");
+        this._parseEntity(this.rootName, this.model, "");
         return { entities: this.entities, refs: [...this.refs] };
     }
 
