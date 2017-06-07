@@ -9,6 +9,17 @@ export default class DomainPuml {
     }
 
     render(model: Object) {
-        return this.template(model);
+        return this.template(this._parseModel(model));
+    }
+
+    _parseModel(model: Object) {
+        let refs = new Set();
+        Reflect.ownKeys(model).map(i => {
+            let entity = Reflect.get(model, i);
+            entity.refs.map(j => {
+                refs.add(j + " -- " + entity.name);
+            });
+        });
+        return { entities: model, refs: [...refs] };
     }
 }

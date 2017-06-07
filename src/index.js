@@ -65,5 +65,4 @@ yargs
     .command("objects", false, info => console.warn("Not implemented yet..."))
     .demandCommand(1)
     .help().argv;
-console.log(yargs.n);
 winston.level = process.env.LOG_LEVEL || "error";

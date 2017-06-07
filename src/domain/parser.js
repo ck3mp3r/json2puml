@@ -6,19 +6,17 @@ export default class DomainParser {
     rootName: string;
     nameHandler: Function;
     entities: Object;
-    refs: Set<string>;
 
     constructor(model: any, rootName: string, nameHandler: Function) {
         this.model = model;
         this.rootName = rootName;
         this.nameHandler = nameHandler;
         this.entities = {};
-        this.refs = new Set();
     }
 
     parse() {
         this._parseEntity(this.rootName, this.model, "");
-        return { entities: this.entities, refs: [...this.refs] };
+        return this.entities;
     }
 
     _parseEntity(key: string, entity: any, parent: string) {
@@ -64,10 +62,6 @@ export default class DomainParser {
 
         let old = Reflect.get(this.entities, name);
         let refs = old ? old.refs : [];
-        if (name !== "" && parent !== "") {
-            let ref = name + " -- " + parent;
-            this.refs.add(ref);
-        }
         let newEntity = new DomainEntity(
             name,
             type,
