@@ -36,6 +36,9 @@ export default class DomainParser {
             case "string":
                 return this._parseString(key, entity);
 
+            case "boolean":
+                return this._parseBoolean(key, entity);
+
             default:
                 console.warn("Unhandled type: " + typeof entity);
         }
@@ -85,5 +88,8 @@ export default class DomainParser {
 
     _parseString(key: string, entity: String) {
         return new DomainEntity(this.nameHandler(key), "string");
+    }
+    _parseBoolean(key: string, entity: Boolean) {
+        return new DomainEntity(this.nameHandler(key), "boolean");
     }
 }
