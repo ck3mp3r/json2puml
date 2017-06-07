@@ -4,6 +4,7 @@
   "bin" :{
     "json2puml" : "dist/index.js"
   },
+  "version" : "0.1.0",
   "scripts": {
     "build": "babel src/ --copy-files -d dist ",
     "prepublish": "yarn run build"
