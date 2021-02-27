@@ -1,29 +1,21 @@
-# README #
+# json 2 puml #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+This cli tool takes any well formed json payload and tries to determine a domain model by inspecting its structure.
+The output is plantUML that can be fed into visualisation tools to render the domain model.
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+To install the cli tool you can either install via 
+```
+yarn global add git@github.com:ck3mp3r/json2puml.git
+``` 
+or 
+```
+npm install -g git@github.com:ck3mp3r/json2puml.git
+```
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+After installing run 
+```
+json2puml --help
+```
+to show command line options.

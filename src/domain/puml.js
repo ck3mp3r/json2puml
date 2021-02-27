@@ -20,6 +20,6 @@ export default class DomainPuml {
                 refs.add(j + " -- " + entity.name);
             });
         });
-        return { entities: model, refs: [...refs] };
+        return { entities: model, refs: [...refs].sort() };
     }
 }
