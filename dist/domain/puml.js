@@ -38,7 +38,7 @@ var DomainPuml = function () {
                     refs.add(j + " -- " + entity.name);
                 });
             });
-            return { entities: model, refs: [].concat(_toConsumableArray(refs)) };
+            return { entities: model, refs: [].concat(_toConsumableArray(refs)).sort() };
         }
     }]);
 
